@@ -5,193 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KBO 직관 마스터</title>
-    <style>
-        :root {
-            --kbo-blue: #0A3161;
-            --kbo-red: #B31B1B;
-            --bg-color: #F8FAFC;
-        }
 
-        body {
-            font-family: 'Pretendard', sans-serif;
-            background-color: var(--bg-color);
-            color: #333;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
+    <script type="text/javascript"
+        src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=ljz64mj8ck&callback=initMap"></script>
 
-        .app-container {
-            width: 100%;
-            max-width: 480px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-        }
-
-        .header {
-            background: var(--kbo-blue);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .tabs {
-            display: flex;
-            background: #E2E8F0;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 15px;
-            text-align: center;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .tab.active {
-            background: white;
-            color: var(--kbo-blue);
-            border-bottom: 3px solid var(--kbo-red);
-        }
-
-        .content {
-            padding: 20px;
-            display: none;
-        }
-
-        .content.active {
-            display: block;
-        }
-
-        /* 승리요정 UI */
-        .dashboard {
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #0A3161, #1E40AF);
-            color: white;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
-
-        .win-rate-text {
-            font-size: 36px;
-            font-weight: 900;
-            margin: 10px 0;
-        }
-
-        .title-badge {
-            display: inline-block;
-            background: var(--kbo-red);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .progress-bar-bg {
-            background: rgba(255, 255, 255, 0.2);
-            height: 12px;
-            border-radius: 10px;
-            margin-top: 15px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            background: #FDE047;
-            height: 100%;
-            width: 0%;
-            transition: width 1s ease-in-out;
-        }
-
-        form {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        select,
-        input,
-        button {
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #CBD5E1;
-        }
-
-        button {
-            background: var(--kbo-red);
-            color: white;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            flex: 1;
-        }
-
-        .list-item {
-            background: #F8FAFC;
-            border: 1px solid #E2E8F0;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .win-tag {
-            color: var(--kbo-red);
-            font-weight: bold;
-        }
-
-        .lose-tag {
-            color: #64748B;
-        }
-
-        /* 맛집 도장 UI */
-        .stadium-filter {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .food-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            border: 1px solid #E2E8F0;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .food-item:hover {
-            background: #F1F5F9;
-        }
-
-        .stamp {
-            font-size: 24px;
-            opacity: 0;
-            transform: scale(0);
-            transition: 0.3s;
-        }
-
-        .stamped .stamp {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .stamped {
-            background: #FFFBEB;
-            border-color: #FDE047;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -199,10 +17,11 @@
     <div class="app-container">
         <div class="header">
             <h1>⚾ KBO 직관 마스터</h1>
+            <div id="authArea" style="margin-top: 10px;"></div>
         </div>
         <div class="tabs">
-            <div class="tab active" onclick="switchTab('winRate')">승리요정 테스트</div>
-            <div class="tab" onclick="switchTab('foodStamp')">맛집 도장깨기</div>
+            <div class="tab active" onclick="switchTab('winRate')">직관 승률 계산기</div>
+            <div class="tab" onclick="switchTab('foodStamp')">맛집 리스트</div>
         </div>
 
         <div id="winRate" class="content active">
@@ -217,17 +36,16 @@
 
             <form id="gameForm">
                 <input type="date" id="gDate" required>
-                <select id="gStadium">
-                    <option value="잠실">잠실</option>
-                    <option value="고척">고척</option>
-                    <option value="문학">문학</option>
-                    <option value="수원">수원</option>
-                    <option value="대전">대전</option>
+
+                <select id="gMatch" required style="width: 200px;">
+                    <option value="">날짜를 먼저 선택하세요</option>
                 </select>
-                <select id="gResult">
+
+                <select id="gResult" required>
                     <option value="win">승리</option>
                     <option value="lose">패배</option>
                     <option value="draw">무승부</option>
+                    <option value="cancel">취소</option>
                 </select>
                 <button type="submit">기록</button>
             </form>
@@ -240,96 +58,67 @@
                 <option value="잠실">잠실 야구장</option>
                 <option value="수원">수원 KT위즈파크</option>
                 <option value="대전">대전 이글스파크</option>
+                <option value="대구">대구 삼성라이온즈파크</option>
+                <option value="광주">광주 기아챔피언스필드</option>
+                <option value="부산">부산 사직야구장</option>
+                <option value="인천">인천 SSG랜더스필드</option>
+                <option value="고척">고척 스카이돔</option>
+                <option value="창원">창원 NC파크</option>
             </select>
+
+            <div class="add-food-form">
+                <select id="newFoodStadium">
+                    <option value="잠실">잠실 야구장</option>
+                    <option value="수원">수원 KT위즈파크</option>
+                    <option value="대전">대전 이글스파크</option>
+                    <option value="대구">대구 삼성라이온즈파크</option>
+                    <option value="광주">광주 기아챔피언스필드</option>
+                    <option value="부산">부산 사직야구장</option>
+                    <option value="인천">인천 SSG랜더스필드</option>
+                    <option value="고척">고척 스카이돔</option>
+                    <option value="창원">창원 NC파크</option>
+                </select>
+                <input type="text" id="newFoodName" placeholder="나만의 비밀 맛집 추가!">
+                <button onclick="addMyFood()">추가</button>
+            </div>
+
+            <div id="map"></div>
+
             <div id="foodList"></div>
+
         </div>
     </div>
+    <script src="app.js"></script>
 
-    <script>
-        let foodsData = [];
+    <div id="settingsModal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div
+            style="background: white; padding: 20px; border-radius: 10px; width: 300px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="margin-top: 0;">⚙️ 사용자 설정</h3>
+            <p style="font-size: 14px; color: #555;">나의 응원팀을 선택해주세요!</p>
 
-        // 탭 전환 로직
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
-        }
+            <select id="teamSelect"
+                style="padding: 8px; width: 80%; margin-bottom: 20px; border-radius: 5px; border: 1px solid #ccc;">
+                <option value="미지정">선택 안함</option>
+                <option value="LG">LG 트윈스</option>
+                <option value="KT">KT 위즈</option>
+                <option value="SSG">SSG 랜더스</option>
+                <option value="NC">NC 다이노스</option>
+                <option value="두산">두산 베어스</option>
+                <option value="KIA">KIA 타이거즈</option>
+                <option value="롯데">롯데 자이언츠</option>
+                <option value="삼성">삼성 라이온즈</option>
+                <option value="한화">한화 이글스</option>
+                <option value="키움">키움 히어로즈</option>
+            </select>
+            <br>
 
-        // --- 탭 1: 직관 기록 가져오기 및 렌더링 ---
-        async function fetchGames() {
-            const res = await fetch('/api/games');
-            const data = await res.json();
-
-            // 애니메이션 및 텍스트 업데이트
-            setTimeout(() => {
-                document.getElementById('winProgressBar').style.width = data.stats.winRate + '%';
-                document.getElementById('winRateScore').innerText = data.stats.winRate + '%';
-
-                let title = "야구장 지박령";
-                if (data.stats.total > 0) {
-                    if (data.stats.winRate >= 60) title = "🏆 완벽한 승리요정";
-                    else if (data.stats.winRate >= 40) title = "🤔 평범한 직관러";
-                    else title = "🌧️ 비를 몰고 다니는 패요";
-                }
-                document.getElementById('fairyTitle').innerText = title;
-            }, 100);
-
-            // 리스트 렌더링
-            document.getElementById('gameList').innerHTML = data.games.map(g => `
-            <div class="list-item">
-                <span>${g.date} (${g.stadium})</span>
-                <span class="${g.result === 'win' ? 'win-tag' : 'lose-tag'}">${g.result === 'win' ? '승리' : (g.result === 'lose' ? '패배' : '무승부')}</span>
-            </div>
-        `).join('');
-        }
-
-        document.getElementById('gameForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const body = {
-                date: document.getElementById('gDate').value,
-                stadium: document.getElementById('gStadium').value,
-                result: document.getElementById('gResult').value
-            };
-            await fetch('/api/games', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            });
-            fetchGames();
-        });
-
-        // --- 탭 2: 맛집 데이터 가져오기 및 렌더링 ---
-        async function fetchFoods() {
-            const res = await fetch('/api/foods');
-            foodsData = await res.json();
-            renderFoods();
-        }
-
-        function renderFoods() {
-            const filter = document.getElementById('stadiumSelect').value;
-            const filtered = filter === '전체' ? foodsData : foodsData.filter(f => f.stadium === filter);
-
-            document.getElementById('foodList').innerHTML = filtered.map(f => `
-            <div class="food-item ${f.stamped ? 'stamped' : ''}" onclick="toggleStamp(${f.id})">
-                <div>
-                    <div style="font-size: 12px; color: #64748B;">${f.stadium}</div>
-                    <div style="font-weight: bold;">${f.name}</div>
-                </div>
-                <div class="stamp">✅</div>
-            </div>
-        `).join('');
-        }
-
-        async function toggleStamp(id) {
-            await fetch(`/api/foods/${id}/stamp`, { method: 'POST' });
-            fetchFoods(); // 도장 찍은 후 데이터 갱신
-        }
-
-        // 초기 데이터 로드
-        fetchGames();
-        fetchFoods();
-    </script>
+            <button onclick="saveTeam()"
+                style="background:var(--kbo-light-blue); color:white; border:none; padding:8px 20px; border-radius:5px; cursor:pointer; font-weight: bold;">저장</button>
+            <button onclick="closeSettings()"
+                style="background:#e2e8f0; color:#333; border:none; padding:8px 20px; border-radius:5px; cursor:pointer; margin-left: 10px;">닫기</button>
+        </div>
+    </div>
 </body>
 
 </html>

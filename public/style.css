@@ -1,0 +1,377 @@
+:root {
+    --kbo-blue: rgb(0, 37, 97);
+    --kbo-light-blue: rgb(0, 174, 239);
+    --kbo-red: rgb(237, 28, 36);
+    --kbo-silver: rgb(188, 190, 192);
+    --kbo-gold: rgb(179, 161, 119);
+    --bg-color: #F8FAFC;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'KBODiaGothic';
+    src: url('./fonts/KBO-Dia-Gothic_bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KBODiaGothic';
+    src: url('./fonts/KBO-Dia-Gothic_medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KBODiaGothic';
+    src: url('./fonts/KBO-Dia-Gothic_light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+body {
+    font-family: 'KBODiaGothic';
+    font-weight: 300;
+    background-color: var(--bg-color);
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.app-container {
+    width: 100%;
+    /* 🌟 폼이 한 줄에 넉넉하게 들어가도록 넓이를 늘렸습니다 */
+    max-width: 700px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(150deg, var(--kbo-light-blue), var(--kbo-blue));
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.tabs {
+    display: flex;
+    background: #E2E8F0;
+}
+
+.tab {
+    flex: 1;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tab.active {
+    background: white;
+    color: var(--kbo-blue);
+    border-bottom: 3px solid var(--kbo-red);
+}
+
+.content {
+    padding: 20px;
+    display: none;
+}
+
+.content.active {
+    display: block;
+}
+
+/* 승리요정 UI */
+.dashboard {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(150deg, var(--kbo-blue), var(--kbo-light-blue));
+    color: white;
+    border-radius: 15px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.win-rate-text {
+    font-size: 36px;
+    font-weight: 900;
+    margin: 10px 0;
+}
+
+.title-badge {
+    display: inline-block;
+    background: var(--kbo-red);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.progress-bar-bg {
+    background: rgba(255, 255, 255, 0.2);
+    height: 12px;
+    border-radius: 10px;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    background: #FDE047;
+    height: 100%;
+    width: 0%;
+    transition: width 1s ease-in-out;
+}
+
+/* 🌟 한 줄 꽉 찬 디자인을 위한 폼 스타일 업데이트 */
+#gameForm {
+    display: flex;
+    gap: 8px;
+    /* 요소들 사이의 간격 */
+    align-items: center;
+    flex-wrap: nowrap;
+    /* 절대 줄바꿈 하지 마! 라고 선언 */
+    margin-bottom: 20px;
+}
+
+/* 폼 요소들의 공통 스타일 */
+select,
+input,
+button {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #CBD5E1;
+    font-size: 14px;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+/* 🌟 각 입력 요소들이 비율(flex)에 맞춰 공간을 나눠 가집니다 */
+#gDate {
+    flex: 1.2;
+}
+
+#gMatch {
+    flex: 2.5;
+    /* 글자가 가장 긴 경기 선택 칸은 가장 넓게! */
+    min-width: 0;
+    /* 글자가 박스를 뚫고 나가지 않게 방어 */
+}
+
+#gResult {
+    flex: 1;
+}
+
+#gameForm button {
+    flex: 0.8;
+    background: var(--kbo-red);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    white-space: nowrap;
+    /* 버튼 글씨가 세로로 찌그러지지 않게 방어 */
+}
+
+.list-item {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.win-tag {
+    color: var(--kbo-red);
+    font-weight: bold;
+}
+
+.lose-tag {
+    color: #64748B;
+}
+
+.draw-tag {
+    color: #10B981;
+    font-weight: bold;
+}
+
+.cancel-tag {
+    color: #94A3B8;
+    text-decoration: line-through;
+    font-weight: bold;
+}
+
+/* 맛집 도장 UI */
+.stadium-filter {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* 지도 영역 스타일 */
+#map {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #E2E8F0;
+}
+
+.food-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.food-item:hover {
+    background: #F1F5F9;
+}
+
+.stamp {
+    font-size: 24px;
+    opacity: 0;
+    transform: scale(0);
+    transition: 0.3s;
+}
+
+.stamped .stamp {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.stamped {
+    background: #FFFBEB;
+    border-color: var(--kbo-gold);
+    border-width: 2px;
+    box-shadow: 0 0 10px rgba(179, 161, 119, 0.5);
+}
+
+/* 나만의 맛집 추가 폼 스타일 */
+.add-food-form {
+    display: flex;
+    gap: 8px;
+    background: #F1F5F9;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.add-food-form select {
+    flex: 1;
+    min-width: 80px;
+}
+
+.add-food-form input {
+    flex: 2;
+    padding: 10px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.add-food-form button {
+    flex: 0.8;
+    background: var(--kbo-blue);
+    /* 기존 빨간색 버튼과 구분되게 파란색 사용 */
+    color: white;
+}
+
+/* 🌟 삭제 호버 존 공통 스타일 */
+.delete-hover-zone {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 5px;
+    /* 터치/클릭 영역을 조금 넓혀줍니다 */
+}
+
+/* 마우스를 올리기 전 원본 텍스트/도장 */
+.delete-hover-zone .original-content {
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 숨겨져 있는 쓰레기통 아이콘 */
+.delete-hover-zone .trash-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* 🌟 마우스를 올렸을 때의 변화 */
+.delete-hover-zone:hover .original-content {
+    opacity: 0;
+    /* 기존 내용은 투명해지고 */
+}
+
+.delete-hover-zone:hover .trash-icon {
+    opacity: 0.6;
+    /* 쓰레기통이 나타납니다! */
+}
+
+/* 📱 모바일 환경 전용 UI 설정 */
+@media (max-width: 600px) {
+
+    /* 1. 폼 전체 컨테이너가 가로를 꽉 채우도록 설정 */
+    #gameForm,
+    .add-food-form {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    /* 2. 각 입력창과 버튼도 부모를 따라 100%를 꽉 채우도록 설정 */
+    #gameForm>*,
+    .add-food-form>* {
+        width: 100% !important;
+        /* 🌟 기존 설정(PC 비율)을 무시하고 무조건 100% 강제 적용 */
+        max-width: 100% !important;
+        box-sizing: border-box;
+        flex: none;
+    }
+
+    /* 3. 모바일에서 터치하기 편하게 높이(padding)를 살짝 더 키웁니다 */
+    #gameForm button,
+    .add-food-form button {
+        padding: 14px 0;
+        font-size: 16px;
+    }
+
+    #gDate,
+    #gMatch,
+    #gResult,
+    .add-food-form select,
+    .add-food-form input {
+        padding: 14px;
+        font-size: 15px;
+    }
+}
