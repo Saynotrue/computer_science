@@ -314,6 +314,4 @@ app.delete('/api/my-restaurants/:id', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port} (Naver Login Enabled)`);
-});
+module.exports = app;
