@@ -4,20 +4,24 @@
         {
             "src": "server.js",
             "use": "@vercel/node"
+        },
+        {
+            "src": "public/**/*",
+            "use": "@vercel/static"
         }
     ],
-    "rewrites": [
+    "routes": [
         {
-            "source": "/api/(.*)",
-            "destination": "/server.js"
+            "src": "/api/(.*)",
+            "dest": "/server.js"
         },
         {
-            "source": "/",
-            "destination": "/public/index.html"
+            "src": "/",
+            "dest": "/public/index.html"
         },
         {
-            "source": "/(.*)",
-            "destination": "/public/$1"
+            "src": "/(.*)",
+            "dest": "/public/$1"
         }
     ]
 }
