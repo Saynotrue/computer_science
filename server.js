@@ -3,7 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const { createClient } = require('@supabase/supabase-js');
 const axios = require('axios');
-const { chromium } = require('playwright');
+//const { chromium } = require('playwright');
 const app = express();
 const port = 3000;
 
